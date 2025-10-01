@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ice Cream Order App</title>
+    <title>Puesto - Heladería</title>
     <style>
         * {
             margin: 0;
@@ -44,7 +44,7 @@
         }
 
         .flavor-section h2 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
             padding: 3.75px;
             border-radius: 3.75px;
@@ -55,7 +55,7 @@
 
         .flavors-table-container {
             overflow-x: auto;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
         }
 
         .flavors-table {
@@ -68,16 +68,16 @@
         }
 
         .flavors-table th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
-            padding: 2px 1px;
+            padding: 3.75px 3px;
             text-align: center;
             font-weight: 600;
-            font-size: 0.8em;
+            font-size: 0.9em;
         }
 
         .flavors-table td {
-            padding: 1px;
+            padding: 3px;
             border-bottom: 0.25px solid #e9ecef;
             vertical-align: middle;
             text-align: center;
@@ -95,14 +95,14 @@
         }
 
         .flavor-row:hover {
-            border-color: #667eea;
+            border-color: #ff6b6b;
             transform: translateY(-0.5px);
             box-shadow: 0 1px 3.75px rgba(0, 0, 0, 0.1);
         }
 
         .flavor-row.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
         }
 
@@ -110,12 +110,11 @@
             text-align: left;
             font-weight: 600;
             color: #2d3436;
-            font-size: 0.85em;
-            padding-left: 2px;
+            font-size: 0.95em;
         }
 
         .flavor-price-cell {
-            font-size: 0.8em;
+            font-size: 0.9em;
             color: #666;
         }
 
@@ -123,29 +122,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 7.5px;
         }
 
         .quantity-btn {
-            background: #667eea;
+            background: #ff6b6b;
             color: white;
             border: none;
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
-            font-size: 0.9em;
+            font-size: 1em;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
         .quantity-btn:hover {
-            background: #5a67d8;
+            background: #e55353;
         }
 
         .quantity-display {
-            font-size: 0.9em;
+            font-size: 1em;
             font-weight: bold;
-            min-width: 16px;
+            min-width: 20px;
             text-align: center;
         }
 
@@ -178,11 +177,11 @@
             font-weight: bold;
             margin-top: 3.75px;
             padding-top: 3.75px;
-            border-top: 0.5px solid #667eea;
+            border-top: 0.5px solid #ff6b6b;
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
             border: none;
             padding: 3.75px 7.5px;
@@ -216,7 +215,7 @@
 
         .ticket {
             background: white;
-            border: 0.5px dashed #667eea;
+            border: 0.5px dashed #ff6b6b;
             border-radius: 3.75px;
             padding: 5px;
             margin-top: 5px;
@@ -237,7 +236,7 @@
             }
 
             .flavors-table {
-                min-width: 320px;
+                min-width: 500px;
             }
 
             .btn-container {
@@ -250,32 +249,17 @@
             }
 
             .flavor-name-cell {
-                font-size: 0.7em;
-                padding-left: 1px;
+                font-size: 0.8em;
             }
 
             .flavor-price-cell {
-                font-size: 0.65em;
-            }
-
-            .quantity-cell {
-                gap: 2px;
+                font-size: 0.8em;
             }
 
             .quantity-btn {
-                width: 18px;
-                height: 18px;
-                font-size: 0.8em;
-            }
-
-            .quantity-display {
-                font-size: 0.8em;
-                min-width: 14px;
-            }
-
-            .flavors-table th {
-                font-size: 0.65em;
-                padding: 1px 0.5px;
+                width: 20px;
+                height: 20px;
+                font-size: 0.9em;
             }
         }
     </style>
@@ -283,7 +267,7 @@
 
 <body>
     <div class="container">
-        <h1>🍨 Ice Cream Orders</h1>
+        <h1>🥤 Puesto - Ice Cream Orders</h1>
 
         <div id="flavors-container">
             <div class="loading" id="loading">Loading flavors...</div>
@@ -307,12 +291,8 @@
 
         <div class="btn-container">
             <button class="btn" onclick="window.location.href='orders.html'">View Order History</button>
-            <button class="btn" onclick="window.location.href='all-orders.html'">All Orders List</button>
-        </div>
-
-        <div class="btn-container">
             <button class="btn" onclick="window.location.href='inventory.html'"
-                style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">📦 Manage Inventory</button>
+                style="background: linear-gradient(135deg, #667eea, #764ba2);">📦 Manage Inventory</button>
         </div>
 
         <div class="ticket" id="ticket" style="display: none;"></div>
@@ -322,10 +302,10 @@
         let orderItems = {};
         let availableFlavors = [];
 
-        // Load flavors from index store
+        // Load flavors from puesto store
         async function loadFlavors() {
             try {
-                const response = await fetch('/store-flavors/index');
+                const response = await fetch('/store-flavors/puesto');
                 const flavors = await response.json();
 
                 if (!response.ok) {
@@ -359,9 +339,9 @@
                     <table class="flavors-table">
                         <thead>
                             <tr>
-                                <th style="width: 50%;">Flavor</th>
-                                <th style="width: 15%;">Price</th>
-                                <th style="width: 35%;">Qty</th>
+                                <th style="width: 40%;">Flavor</th>
+                                <th style="width: 20%;">Price</th>
+                                <th style="width: 40%;">Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -435,7 +415,6 @@
             orderTotalElement.textContent = total.toFixed(2);
         }
 
-
         async function submitOrder() {
             const total = parseFloat(document.getElementById('order-total').textContent);
             if (total === 0) {
@@ -447,21 +426,20 @@
             const ticketContainer = document.getElementById('ticket');
             const timestamp = new Date().toLocaleString();
 
-            let ticket = `🍨 ICE CREAM ORDER TICKET 🍨
-================================
+            let ticket = `🥤 PUESTO - ICE CREAM ORDER TICKET 🥤
+=======================================
 ${timestamp}
---------------------------------
-`;
+---------------------------------------`;
 
             Object.values(orderItems).forEach(item => {
                 ticket += `${item.flavor} (${item.quantity} scoops) - $${(item.quantity * item.price).toFixed(2)}\n`;
             });
 
-            ticket += `--------------------------------
+            ticket += `---------------------------------------
 TOTAL: $${total.toFixed(2)}
 
 Thank you for your order!
-================================`;
+=======================================`;
 
             ticketContainer.textContent = ticket;
             ticketContainer.style.display = 'block';
@@ -506,16 +484,6 @@ Thank you for your order!
             document.getElementById('new-order-container').style.display = 'none';
             document.querySelector('.btn-container').style.display = 'flex';
         }
-
-        // Refresh flavors (can be called from other pages)
-        window.refreshFlavors = loadFlavors;
-
-        // Auto-refresh every 30 seconds to catch inventory changes
-        setInterval(() => {
-            if (document.visibilityState === 'visible') {
-                loadFlavors();
-            }
-        }, 30000);
 
         // Initialize the page
         loadFlavors();

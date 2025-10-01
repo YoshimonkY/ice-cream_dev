@@ -116,6 +116,161 @@ app.get('/all-orders', (req, res) => {
     });
 });
 
+// Inventory Management Routes
+
+// Get all flavors
+app.get('/flavors', (req, res) => {
+    db.all('SELECT * FROM flavors ORDER BY name', [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
+// Add new flavor
+app.post('/flavors', (req, res) => {
+    const { name, price } = req.body;
+
+    if (!name || !price) {
+        return res.status(400).json({ error: 'Name and price are required' });
+    }
+
+    db.run(
+        'INSERT INTO flavors (name, price) VALUES (?, ?)',
+        [name, price],
+        function (err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.json({ id: this.lastID, message: 'Flavor added successfully' });
+        }
+    );
+});
+
+// Update flavor (price and/or active status)
+app.put('/flavors/:id', (req, res) => {
+    const { id } = req.params;
+    const { price, active } = req.body;
+
+    if (price === undefined && active === undefined) {
+        return res.status(400).json({ error: 'Price or active status is required' });
+    }
+
+    let query = 'UPDATE flavors SET ';
+    let params = [];
+    let updates = [];
+
+    if (price !== undefined) {
+        updates.push('price = ?');
+        params.push(price);
+    }
+
+    if (active !== undefined) {
+        updates.push('active = ?');
+        params.push(active);
+    }
+
+    query += updates.join(', ') + ' WHERE id = ?';
+    params.push(id);
+
+    db.run(query, params, function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'Flavor not found' });
+        }
+        res.json({ message: 'Flavor updated successfully' });
+    });
+});
+
+// Delete flavor
+app.delete('/flavors/:id', (req, res) => {
+    const { id } = req.params;
+
+    db.run('DELETE FROM flavors WHERE id = ?', [id], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'Flavor not found' });
+        }
+        res.json({ message: 'Flavor deleted successfully' });
+    });
+});
+
+// Store-specific flavor management
+
+// Get flavors for a specific store
+app.get('/store-flavors/:store', (req, res) => {
+    const { store } = req.params;
+
+    const query = `
+        SELECT f.*, sf.active as store_active
+        FROM flavors f
+        LEFT JOIN store_flavors sf ON f.id = sf.flavor_id AND sf.store_name = ?
+        ORDER BY f.name
+    `;
+
+    db.all(query, [store], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
+// Update store flavor assignments
+app.post('/store-flavors/:store', (req, res) => {
+    const { store } = req.params;
+    const { flavorAssignments } = req.body; // Array of {flavorId, active}
+
+    if (!Array.isArray(flavorAssignments)) {
+        return res.status(400).json({ error: 'flavorAssignments must be an array' });
+    }
+
+    // Start transaction
+    db.serialize(() => {
+        db.run('BEGIN');
+
+        // First, deactivate all flavors for this store
+        db.run('DELETE FROM store_flavors WHERE store_name = ?', [store], (err) => {
+            if (err) {
+                db.run('ROLLBACK');
+                return res.status(500).json({ error: err.message });
+            }
+
+            // Insert active assignments
+            if (flavorAssignments.length > 0) {
+                const stmt = db.prepare(`
+                    INSERT INTO store_flavors (store_name, flavor_id, active)
+                    VALUES (?, ?, ?)
+                `);
+
+                flavorAssignments.forEach(assignment => {
+                    if (assignment.active) {
+                        stmt.run([store, assignment.flavorId, 1]);
+                    }
+                });
+
+                stmt.finalize((err) => {
+                    if (err) {
+                        db.run('ROLLBACK');
+                        return res.status(500).json({ error: err.message });
+                    }
+
+                    db.run('COMMIT');
+                    res.json({ message: 'Store flavors updated successfully' });
+                });
+            } else {
+                db.run('COMMIT');
+                res.json({ message: 'Store flavors updated successfully' });
+            }
+        });
+    });
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
