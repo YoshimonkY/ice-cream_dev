@@ -9,10 +9,57 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-// Route to save an order
+// Route to save an order (legacy support)
 app.post('/orders', (req, res) => {
-    const { items, total, ticket } = req.body;
+    const { items, total, ticket, cups, customerName, storeId } = req.body;
     const timestamp = new Date().toISOString();
+
+    // Support both old format (items array) and new format (cups array)
+    if (cups && cups.length > 0) {
+        // New cup-based order format
+        saveCupOrder(req, res, timestamp);
+    } else {
+        // Legacy format for backward compatibility
+        saveLegacyOrder(req, res, timestamp);
+    }
+});
+
+// Save new cup-based order (legacy format for now)
+function saveCupOrder(req, res, timestamp) {
+    const { cups, total, ticket, customerName, storeId } = req.body;
+
+    // For now, save as legacy format - convert cups to items array
+    const items = [];
+    cups.forEach(cup => {
+        Object.values(cup.items).forEach(item => {
+            items.push(item);
+        });
+    });
+
+    db.run(
+        'INSERT INTO orders (timestamp, total, ticket) VALUES (?, ?, ?)',
+        [timestamp, total, ticket],
+        function (err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            const orderId = this.lastID;
+            const stmt = db.prepare('INSERT INTO order_items (order_id, flavor, quantity, price) VALUES (?, ?, ?, ?)');
+
+            items.forEach(item => {
+                stmt.run([orderId, item.flavor, item.quantity, item.price]);
+            });
+
+            stmt.finalize();
+            res.json({ id: orderId, message: 'Cup order saved successfully' });
+        }
+    );
+}
+
+// Save legacy order format
+function saveLegacyOrder(req, res, timestamp) {
+    const { items, total, ticket } = req.body;
 
     db.run(
         'INSERT INTO orders (timestamp, total, ticket) VALUES (?, ?, ?)',
@@ -33,7 +80,8 @@ app.post('/orders', (req, res) => {
             res.json({ id: orderId, message: 'Order saved successfully' });
         }
     );
-});
+}
+
 
 // Route to get orders with customizable limit and order
 app.get('/orders', (req, res) => {

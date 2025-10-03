@@ -13,23 +13,19 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 5px;
         }
 
         .container {
-            max-width: 600px;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
             border-radius: 5px;
             box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-            padding: 5px;
-            margin-bottom: 5px;
+            overflow: hidden;
         }
 
         h1 {
@@ -55,7 +51,7 @@
 
         .flavors-table-container {
             overflow-x: auto;
-            margin-bottom: 2px;
+            margin: 5px 7.5px;
         }
 
         .flavors-table {
@@ -70,22 +66,35 @@
         .flavors-table th {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 2px 1px;
+            padding: 3.75px 3px;
             text-align: center;
             font-weight: 600;
-            font-size: 0.8em;
+            font-size: 0.9em;
         }
 
         .flavors-table td {
-            padding: 1px;
+            padding: 10px 10px;
             border-bottom: 0.25px solid #e9ecef;
             vertical-align: middle;
             text-align: center;
+            font-size: .9em;
+            /* FAQ it adjusts both desktop and mobile better */
         }
 
-        .flavors-table tr:hover {
-            background: #f8f9fa;
+        .flavors-table tr:nth-child(even) {
+            background: #c0c0c0;
+            /* FAQ added */
         }
+
+        .flavors-table tr:nth-child(odd) {
+            background: #ffffff;
+            /* FAQ added */
+        }
+
+        /* .flavors-table tr:hover {
+            background: #f8f9fa;
+        } */
+        /* FAQ commented out to use .flavor-row hover instead */
 
         .flavor-row {
             background: #fff;
@@ -96,7 +105,7 @@
 
         .flavor-row:hover {
             border-color: #667eea;
-            transform: translateY(-0.5px);
+            transform: translateY(-1.5px);
             box-shadow: 0 1px 3.75px rgba(0, 0, 0, 0.1);
         }
 
@@ -110,42 +119,43 @@
             text-align: left;
             font-weight: 600;
             color: #2d3436;
-            font-size: 0.85em;
-            padding-left: 2px;
+            font-size: 0.95em;
+            padding: 0;
+            margin: 0;
         }
 
         .flavor-price-cell {
-            font-size: 0.8em;
-            color: #666;
+            font-size: 0.95em;
+            color: #636e72;
         }
 
         .quantity-cell {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 5px;
         }
 
         .quantity-btn {
             background: #667eea;
             color: white;
             border: none;
-            width: 20px;
-            height: 20px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
-            font-size: 0.9em;
+            font-size: 1em;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
-        .quantity-btn:hover {
+        /*.quantity-btn:hover {
             background: #5a67d8;
-        }
+        }/* FAQ bottom border visual conflict */
 
         .quantity-display {
-            font-size: 0.9em;
+            font-size: 1em;
             font-weight: bold;
-            min-width: 16px;
+            min-width: 20px;
             text-align: center;
         }
 
@@ -237,7 +247,8 @@
             }
 
             .flavors-table {
-                min-width: 320px;
+                min-width: 200px;
+
             }
 
             .btn-container {
@@ -250,32 +261,37 @@
             }
 
             .flavor-name-cell {
-                font-size: 0.7em;
-                padding-left: 1px;
+                font-size: 0.8em;
+                padding: 0;
+                margin: 0;
             }
 
             .flavor-price-cell {
-                font-size: 0.65em;
+                font-size: 0.8em;
             }
 
             .quantity-cell {
-                gap: 2px;
+                gap: 9px;
             }
 
             .quantity-btn {
-                width: 18px;
-                height: 18px;
-                font-size: 0.8em;
+                width: 40px;
+                height: 40px;
+                font-size: 0.9em;
             }
 
             .quantity-display {
-                font-size: 0.8em;
-                min-width: 14px;
+                font-size: 0.9em;
+                min-width: 18px;
             }
 
             .flavors-table th {
-                font-size: 0.65em;
-                padding: 1px 0.5px;
+                font-size: 0.75em;
+                padding: 2px 1px;
+            }
+
+            .flavors-table td {
+                padding: 10px 10px;
             }
         }
     </style>
@@ -286,7 +302,7 @@
         <h1>🍨 Ice Cream Orders</h1>
 
         <div id="flavors-container">
-            <div class="loading" id="loading">Loading flavors...</div>
+            <div class="loading" id="loading">Cargando Sabores...</div>
         </div>
 
         <div class="order-summary">
@@ -298,11 +314,11 @@
         </div>
 
         <div class="btn-container">
-            <button class="btn" onclick="submitOrder()">Submit Order</button>
+            <button class="btn" onclick="submitOrder()">Remitir Orden</button>
         </div>
 
         <div class="btn-container" id="new-order-container" style="display: none;">
-            <button class="btn" onclick="startNewOrder()">New Order</button>
+            <button class="btn" onclick="startNewOrder()">Nueva Orden</button>
         </div>
 
         <div class="btn-container">
@@ -313,6 +329,11 @@
         <div class="btn-container">
             <button class="btn" onclick="window.location.href='inventory.html'"
                 style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">📦 Manage Inventory</button>
+        </div>
+
+        <div class="btn-container">
+            <button class="btn" onclick="window.location.href='tienda.html'"
+                style="background: linear-gradient(135deg, #28a745, #20c997);">🏪 Advanced Store</button>
         </div>
 
         <div class="ticket" id="ticket" style="display: none;"></div>
@@ -359,9 +380,9 @@
                     <table class="flavors-table">
                         <thead>
                             <tr>
-                                <th style="width: 50%;">Flavor</th>
-                                <th style="width: 15%;">Price</th>
-                                <th style="width: 35%;">Qty</th>
+                                <th style="width: 60%;">Flavor</th>
+                                <th style="width: 20%;">Price</th>
+                                <th style="width: 20%;">Qty</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -403,10 +424,10 @@
 
             if (currentQuantity > 0) {
                 orderItems[flavor] = { flavor, quantity: currentQuantity, price };
-                flavorRow.classList.add('selected');
+                /*flavorRow.classList.add('selected');*/
             } else {
                 delete orderItems[flavor];
-                flavorRow.classList.remove('selected');
+                /*flavorRow.classList.remove('selected');  */
             }
 
             updateOrderSummary();
@@ -445,22 +466,31 @@
 
             // Generate ticket automatically before submitting
             const ticketContainer = document.getElementById('ticket');
-            const timestamp = new Date().toLocaleString();
+            const latinAmericaTimestamp = new Date().toLocaleString('es-419', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
 
             let ticket = `🍨 ICE CREAM ORDER TICKET 🍨
 ================================
-${timestamp}
+${latinAmericaTimestamp}
 --------------------------------
 `;
 
             Object.values(orderItems).forEach(item => {
-                ticket += `${item.flavor} (${item.quantity} scoops) - $${(item.quantity * item.price).toFixed(2)}\n`;
+                const portion = item.quantity === 1 ? 'bola' : 'bolas';
+                ticket += `${item.flavor} (${item.quantity} ${portion}) - $${(item.quantity * item.price).toFixed(2)}\n`;
             });
 
             ticket += `--------------------------------
 TOTAL: $${total.toFixed(2)}
 
-Thank you for your order!
+¡Disfruta tu helado!
 ================================`;
 
             ticketContainer.textContent = ticket;
@@ -474,11 +504,11 @@ Thank you for your order!
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ items, total, ticket }),
+                    body: JSON.stringify({ items, total, ticket, timestamp: latinAmericaTimestamp }),
                 });
 
                 if (response.ok) {
-                    alert('Order submitted successfully!');
+                    alert('¡Orden generada correctamente!');
                     // Show the New Order button and hide Submit Order button
                     document.getElementById('new-order-container').style.display = 'block';
                     document.querySelector('.btn-container').style.display = 'none';
@@ -511,11 +541,11 @@ Thank you for your order!
         window.refreshFlavors = loadFlavors;
 
         // Auto-refresh every 30 seconds to catch inventory changes
-        setInterval(() => {
+        /*setInterval(() => {
             if (document.visibilityState === 'visible') {
                 loadFlavors();
             }
-        }, 30000);
+        }, 10000); */
 
         // Initialize the page
         loadFlavors();

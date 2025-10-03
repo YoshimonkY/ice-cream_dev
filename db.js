@@ -4,13 +4,13 @@ const db = new sqlite3.Database('./icecream.db');
 // Create tables
 db.serialize(() => {
   db.run(`
-    CREATE TABLE IF NOT EXISTS orders (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      timestamp TEXT,
-      total REAL,
-      ticket TEXT
-    )
-  `);
+  CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT,
+    total REAL,
+    ticket TEXT
+  )
+`);
 
   db.run(`
     CREATE TABLE IF NOT EXISTS order_items (

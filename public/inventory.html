@@ -58,6 +58,7 @@
             justify-content: center;
             gap: 5px;
             margin-bottom: 5px;
+            flex-wrap: wrap;
         }
 
         .store-btn {
@@ -377,10 +378,20 @@
                 align-items: center;
             }
 
+            .store-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+
             .nav-buttons {
                 flex-direction: column;
                 gap: 3.75px;
                 align-items: center;
+            }
+
+            .nav-buttons .btn {
+                width: 100%;
+                max-width: 250px;
             }
 
             .table-container {
@@ -415,8 +426,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🍦 Gestión de Sabores</h1>
-            <p>Administra el inventario de sabores disponibles</p>
+            <h2>🍦 Inventario Sabores</h2>
         </div>
 
         <div class="store-selector">
@@ -424,12 +434,18 @@
             <div class="store-buttons">
                 <button class="store-btn active" onclick="selectStore('index')">🏪 Tienda Principal</button>
                 <button class="store-btn" onclick="selectStore('puesto')">🥤 Puesto</button>
+                <button class="store-btn" onclick="selectStore('tienda')">🏪 Tienda Avanzada</button>
             </div>
         </div>
 
         <div class="nav-buttons">
             <a href="/" class="btn btn-primary">← Página Principal</a>
             <a href="/puesto.html" class="btn btn-secondary">Puesto →</a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/tienda.html" class="btn" style="background: linear-gradient(135deg, #28a745, #20c997);">🏪 Tienda
+                Avanzada →</a>
         </div>
 
         <div id="error-message" class="error" style="display: none;"></div>
@@ -492,6 +508,11 @@
         <div class="nav-buttons" style="border-top: 2px solid #e9ecef;">
             <a href="/" class="btn btn-primary">← Página Principal</a>
             <a href="/puesto.html" class="btn btn-secondary">Puesto →</a>
+        </div>
+
+        <div class="nav-buttons" style="border-top: 1px solid #e9ecef;">
+            <a href="/tienda.html" class="btn" style="background: linear-gradient(135deg, #28a745, #20c997);">🏪 Tienda
+                Avanzada →</a>
         </div>
     </div>
 
