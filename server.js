@@ -254,6 +254,55 @@ app.delete('/flavors/:id', (req, res) => {
 app.get('/store-flavors/:store', (req, res) => {
     const { store } = req.params;
 
+    // Special handling for puesto2 - if it's a new request and no entries exist,
+    // copy the flavor settings from puesto
+    if (store === 'puesto2') {
+        db.all('SELECT * FROM store_flavors WHERE store_name = ?', ['puesto2'], (err, rows) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            // If no entries exist for puesto2, copy from puesto
+            if (rows.length === 0) {
+                db.all('SELECT * FROM store_flavors WHERE store_name = ?', ['puesto'], (err, puestoRows) => {
+                    if (err) {
+                        return res.status(500).json({ error: err.message });
+                    }
+
+                    // If puesto has entries, copy them for puesto2
+                    if (puestoRows.length > 0) {
+                        const stmt = db.prepare('INSERT INTO store_flavors (store_name, flavor_id, active) VALUES (?, ?, ?)');
+
+                        puestoRows.forEach(row => {
+                            stmt.run(['puesto2', row.flavor_id, row.active]);
+                        });
+
+                        stmt.finalize((err) => {
+                            if (err) {
+                                return res.status(500).json({ error: err.message });
+                            }
+
+                            // Now get the flavors for puesto2
+                            getFlavorsForStore('puesto2', res);
+                        });
+                    } else {
+                        // If puesto has no entries either, just return all flavors
+                        getFlavorsForStore('puesto2', res);
+                    }
+                });
+            } else {
+                // puesto2 already has entries, get them normally
+                getFlavorsForStore('puesto2', res);
+            }
+        });
+    } else {
+        // For all other stores, process normally
+        getFlavorsForStore(store, res);
+    }
+});
+
+// Helper function to get flavors for a store
+function getFlavorsForStore(store, res) {
     const query = `
         SELECT f.*, sf.active as store_active
         FROM flavors f
@@ -267,7 +316,7 @@ app.get('/store-flavors/:store', (req, res) => {
         }
         res.json(rows);
     });
-});
+}
 
 // Update store flavor assignments
 app.post('/store-flavors/:store', (req, res) => {
