@@ -191,15 +191,29 @@
             width: 100%;
             border-collapse: collapse;
             font-family: monospace;
-            white-space: pre;
             font-size: 14px;
         }
 
         .order-table td {
-            padding: 2px 5px;
+            padding: 4px 8px;
             vertical-align: top;
             border: none;
             text-align: left;
+        }
+
+        .cup-delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .cup-delete-btn:hover {
+            background: #c82333;
         }
 
         /* Cup indicator styles removed */
@@ -252,6 +266,22 @@
             padding: 10px;
             color: #636e72;
             font-size: 1.1em;
+        }
+
+        .cup-number {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cup-number:hover {
+            color: #ff6b6b;
+        }
+
+        .cup-number.delete-mode {
+            background: #ff6b6b;
+            color: white;
+            border-radius: 3px;
+            padding: 2px 5px;
         }
 
         @media (max-width: 768px) {
@@ -342,7 +372,9 @@
             <div id="order-preview-content">
                 <table class="order-table" id="order-table">
                     <tr>
-                        <td>Vaso 1</td>
+                        <td style="width: 80px;"></td>
+                        <td style="width: 200px;">No items in order</td>
+                        <td style="width: 80px;"></td>
                     </tr>
                 </table>
             </div>
@@ -381,6 +413,7 @@
         };
         let availableFlavors = [];
         let selectedFlavor = null;
+        let deleteModeCups = new Set(); // Track which cups are in delete mode
 
         // Load flavors from puesto2 store
         async function loadFlavors() {
@@ -529,6 +562,7 @@
             };
 
             selectedFlavor = null;
+            deleteModeCups.clear();
             updateOrderPreview();
             displayFlavors(availableFlavors);
         }
@@ -560,7 +594,11 @@
             }
 
             if (allCups.length === 0) {
-                orderTable.innerHTML = `<tr><td>Vaso 1</td></tr>`;
+                orderTable.innerHTML = `<tr>
+                    <td style="width: 160px;">Vaso vacío</td>
+                    <td style="width: 150px;"></td>
+                    <td style="width: 150px;"></td>
+                </tr>`;
                 return;
             }
 
@@ -573,22 +611,28 @@
                 // For each cup, create one row for each flavor
                 cupItems.forEach((item, itemIndex) => {
                     const isFirstItemInCup = itemIndex === 0;
-
                     tableHtml += `<tr>`;
 
-                    // First column: Cup number (only show in first row of each cup)
+                    // Modified cup number cell to be interactive
                     if (isFirstItemInCup) {
-                        tableHtml += `<td>Vaso ${cup.cupNumber}</td>`;
+                        tableHtml += `
+                            <td style="width: 80px;">
+                                <span class="cup-number"
+                                    onclick="handleCupClick(this, ${cup.cupNumber})"
+                                    data-cup="${cup.cupNumber}">
+                                    Vaso ${cup.cupNumber}
+                                </span>
+                            </td>`;
                     } else {
-                        tableHtml += `<td></td>`;
+                        tableHtml += `<td style="width: 80px;"></td>`;
                     }
 
                     // Second column: Flavor name and quantity
-                    tableHtml += `<td>${item.flavor} (${item.quantity})</td>`;
+                    tableHtml += `<td style="width: 200px;">${item.flavor} (${item.quantity})</td>`;
 
                     // Third column: Price for this flavor
                     const flavorTotal = item.price * item.quantity;
-                    tableHtml += `<td>$${flavorTotal.toFixed(2)}</td>`;
+                    tableHtml += `<td style="width: 80px; text-align: right;">$${flavorTotal.toFixed(2)}</td>`;
 
                     tableHtml += `</tr>`;
                 });
@@ -601,9 +645,9 @@
             // Add an order total row
             const orderTotal = allCups.reduce((sum, cup) => sum + cup.subtotal, 0);
             tableHtml += `<tr>
-                <td></td>
-                <td><b>TOTAL</b></td>
-                <td><b>$${orderTotal.toFixed(2)}</b></td>
+                <td style="width: 80px;"></td>
+                <td style="width: 200px;"><b>TOTAL</b></td>
+                <td style="width: 80px; text-align: right;"><b>$${orderTotal.toFixed(2)}</b></td>
             </tr>`;
 
             orderTable.innerHTML = tableHtml;
@@ -703,6 +747,7 @@ Cliente: ${customerName}
                 subtotal: 0
             };
             selectedFlavor = null;
+            deleteModeCups.clear();
 
             // Reset display
             updateOrderPreview();
@@ -710,6 +755,63 @@ Cliente: ${customerName}
             document.getElementById('ticket').style.display = 'none';
             document.getElementById('new-order-container').style.display = 'none';
             document.querySelector('.btn-container').style.display = 'flex';
+        }
+
+        function handleCupClick(element, cupNumber) {
+            if (element.classList.contains('delete-mode')) {
+                deleteCup(cupNumber);
+            } else {
+                // Clear any existing delete modes first
+                document.querySelectorAll('.cup-number.delete-mode').forEach(el => {
+                    el.classList.remove('delete-mode');
+                    el.innerHTML = `Vaso ${el.dataset.cup}`;
+                });
+
+                // Set this element to delete mode
+                element.classList.add('delete-mode');
+                element.innerHTML = '-'; /* ➖ */
+
+                // Reset after 1 second if not clicked
+                setTimeout(() => {
+                    if (element.classList.contains('delete-mode')) {
+                        element.classList.remove('delete-mode');
+                        element.innerHTML = `Vaso ${cupNumber}`;
+                    }
+                }, 1000);
+            }
+        }
+
+        function deleteCup(cupNumber) {
+            // Remove from cups array
+            cups = cups.filter(cup => cup.cupNumber !== cupNumber);
+
+            // Renumber all cups consecutively starting from 1
+            cups.forEach((cup, index) => {
+                cup.cupNumber = index + 1;
+            });
+
+            // If it's the current cup, reset it
+            if (currentCup.cupNumber === cupNumber) {
+                currentCup = {
+                    cupNumber: currentCupNumber,
+                    items: {},
+                    totalScoops: 0,
+                    subtotal: 0
+                };
+            }
+
+            // Update currentCupNumber to reflect the highest cup number
+            if (cups.length > 0) {
+                currentCupNumber = Math.max(...cups.map(cup => cup.cupNumber));
+            }
+
+            // Clear delete mode
+            deleteModeCups.clear();
+
+            // Update the display
+            selectedFlavor = null;
+            updateOrderPreview();
+            displayFlavors(availableFlavors);
         }
 
         // Initialize the page
