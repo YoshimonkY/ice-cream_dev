@@ -381,7 +381,7 @@
         </div>
 
         <div class="btn-container">
-            <button class="btn" onclick="submitOrder()">Submit Order</button>
+            <button class="btn" style="min-width: 10px;" onclick="submitOrder()">✔️</button>
         </div>
 
         <div class="btn-container" id="new-order-container" style="display: none;">
@@ -561,7 +561,7 @@
                 subtotal: 0
             };
 
-            selectedFlavor = null;
+            /* selectedFlavor = null; */ /* Sin esta linea no se desactiva el sabor seleccionado */
             deleteModeCups.clear();
             updateOrderPreview();
             displayFlavors(availableFlavors);
@@ -662,7 +662,7 @@
             }
 
             if (allCups.length === 0) {
-                alert('Please add at least one scoop to submit the order.');
+                alert('Agrega al menos una bolita para generar un pedido.');
                 return;
             }
 
@@ -723,7 +723,7 @@ Cliente: ${customerName}
                 });
 
                 if (response.ok) {
-                    alert('Order submitted successfully!');
+                    alert('Orden generada correctamente!');
                     // Show the New Order button and hide Submit Order button
                     document.getElementById('new-order-container').style.display = 'block';
                     document.querySelector('.btn-container').style.display = 'none';
