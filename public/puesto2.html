@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: rgb(22, 165, 9);
+            background-color: rgb(90, 90, 90);
             padding: 0px;
             min-height: 100vh;
             display: flex;
@@ -27,15 +27,7 @@
             justify-content: center;
             align-items: center;
             gap: 100px;
-            margin-bottom: 10px;
-        }
-
-        .header-container h3 {
-            margin: 0;
-            padding: 5px 10px;
-            /* background: linear-gradient(135deg, #ff6b6b, #ee5a52); */
             color: white;
-            border-radius: 5px;
         }
 
         .container {
@@ -43,9 +35,6 @@
             /*FAQ*/
             width: 100%;
             text-align: center;
-            /* background: rgb(22, 165, 9);
-            border-radius: 5px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); */
             padding: 0px;
             margin-bottom: 5px;
         }
@@ -61,15 +50,15 @@
             margin-bottom: 7.5px;
         }
 
-        .flavor-section h2 {
-            /* background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            color: white; */
+        /* .flavor-section h2 {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
             padding: 3.75px;
             border-radius: 3.75px;
             text-align: center;
             font-size: 1.5em;
             margin-bottom: 5px;
-        }
+        } */
 
         .flavors-buttons-container {
             /* min-width: 350px; */
@@ -77,10 +66,10 @@
             /* background: transparent;*/
             justify-content: center;
             /* Add this line to center horizontally */
+            margin-top: 4px;
+            margin-bottom: 4px;
             display: flex;
             gap: 5px;
-            margin-bottom: 5px;
-
         }
 
         .flavors-column {
@@ -88,13 +77,31 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 0px;
             /* background-color: rgb(22, 165, 9); */
 
             /* Add this line */
         }
 
         .flavor-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid #66e634;
+            border-radius: 8px;
+            padding-top: 8px;
+            padding-bottom: 5px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            min-height: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* .flavor-btn {
             background: #66e634;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
@@ -108,7 +115,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
+        } */
 
         .flavor-btn:hover {
             border-color: #ff6b6b;
@@ -139,14 +146,6 @@
             opacity: 0.8;
         }
 
-        .quantity-controls-section {
-            background: #f8f9fa;
-            padding: 5px 7.5px;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            text-align: center;
-        }
-
         .quantity-controls {
             display: flex;
             align-items: center;
@@ -160,10 +159,11 @@
         .quantity-btn {
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
-            border: none;
+            border: 2px solid #000000;
             width: 35px;
             height: 35px;
-            border-radius: 50%;
+            border-radius: 30%;
+            margin: 8px;
             font-size: 0.9em;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -181,10 +181,12 @@
         }
 
         .order-preview {
-            background: white;
+            background: #f9e4b7;
             padding: 5px;
             margin-top: 7.5px;
+            border-radius: 15px;
             border: 1px solid #ddd;
+            margin-bottom: 8px;
         }
 
         .order-table {
@@ -216,19 +218,31 @@
             background: #c82333;
         }
 
-        /* Cup indicator styles removed */
-
-        .btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            color: white;
-            border: none;
-            padding: 3.75px 7.5px;
-            border-radius: 6.25px;
+        .btn-link {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: black;
+            border: 2px solid #000000;
+            padding: 0px 7.5px;
+            border-radius: 10px;
             font-size: 1.2em;
             cursor: pointer;
+            margin: 6px;
+            max-width: 110px;
+            height: 25px;
+        }
+
+        .btn {
+            background: hsla(0, 0%, 47%, 0.466) 0%;
+            color: white;
+            border: 2px solid #66ff00;
+            padding: 3.75px 7.5px;
+            border-radius: 22.5px;
+            font-size: 1.5em;
+            cursor: pointer;
             transition: transform 0.3s ease;
-            margin: 2.5px;
-            min-width: 150px;
+            margin: 6px;
+            height: 45px;
+
         }
 
         .btn:hover {
@@ -243,7 +257,7 @@
             display: flex;
             justify-content: center;
             gap: 5px;
-            margin-top: 5px;
+            /* scroll-snap-align: end; */
         }
 
         .btn-container .btn {
@@ -252,7 +266,7 @@
         }
 
         .ticket {
-            background: white;
+            background: #f9e4b7;
             border: 0.5px dashed #ff6b6b;
             border-radius: 3.75px;
             padding: 5px;
@@ -278,10 +292,25 @@
         }
 
         .cup-number.delete-mode {
+            font-size: 1.0em;
             background: #ff6b6b;
             color: white;
             border-radius: 3px;
             padding: 2px 5px;
+        }
+
+        .page {
+            display: flex;
+            flex-direction: column-reverse;
+            /* reverses visual flow */
+            justify-content: flex-start;
+            /* aligns items to bottom visually */
+            height: 100%;
+            overflow-y: auto;
+            position: fixed;
+            bottom: 0;
+            /* html {
+            overscroll-behavior: contain; */
         }
 
         @media (max-width: 768px) {
@@ -300,15 +329,22 @@
                 border: none;
                 /* Set minimum width to half container minus gap */
                 gap: 2px;
+                align-items: center;
             }
 
             .flavor-btn {
-                min-height: 40px;
-                font-size: 1.2em;
+                min-height: 30px;
+                max-height: 30px;
+                width: 150px;
+                font-size: 1.1em;
             }
 
             .flavor-name {
                 font-size: 0.8em;
+                width: 100%;
+                /* Add this */
+                text-align: center;
+                /* Add this */
             }
 
             .flavor-price {
@@ -326,13 +362,20 @@
             }
 
             .btn-container {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
+                /* scroll-snap-align: end; */
             }
+
+            /* Add custom scroll snap behavior
+            .snap-item {
+                scroll-snap-align: end;
+                scroll-margin-top: 20px;
+            } */
 
             .btn-container .btn {
                 width: 100%;
-                max-width: 250px;
+                /* max-width: 100px; */
             }
 
             h1 {
@@ -347,59 +390,52 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header-container">
-            <h3>Puesto 2</h3>
-            <h3>Usuario</h3>
-        </div>
+    <div class="page">
 
-        <div id="flavors-container">
-            <div class="loading" id="loading">Loading flavors...</div>
-        </div>
+        <div class="container">
+            <div class="header-container">
+                <h3>Puesto 2</h3>
+                <h3>Usuario</h3>
+            </div>
 
-        <div class="quantity-controls-section">
-            <div class="quantity-controls">
-                <button class="btn" style="min-width: 10px;" onclick="createNewCup()">+🥤</button>
+            <div class="ticket" id="ticket" style="display: none;"></div>
+
+            <div class="order-preview">
+                <div id="order-preview-content">
+                    <table class="order-table" id="order-table">
+                        <tr>
+                            <td style="width: 80px;"></td>
+                            <td style="width: 200px;">No items in order</td>
+                            <td style="width: 80px;"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <div id="flavors-container">
+                <div class="loading" id="loading">Loading flavors...</div>
+            </div>
+
+
+            <div class="quantity-controls" id="quantity-controls-container">
+                <button class="quantity-btn" onclick="createNewCup()">🥤</button>
                 <button class="quantity-btn" onclick="addScoops(1)">+1</button>
                 <button class="quantity-btn" onclick="addScoops(3)">+3</button>
                 <button class="quantity-btn" onclick="addScoops(6)">+6</button>
+                <button class="quantity-btn" style="min-width: 10px;" onclick="submitOrder()">✔️</button>
+            </div>
+            <div class="btn-container" id="new-order-container" style="display: none;">
+                <button class="btn" onclick="startNewOrder()">Nueva Orden</button>
+            </div>
 
-
+            <div class="btn-container">
+                <button class="btn-link" style="margin-right: 85px;"
+                    onclick="window.location.href='orders.html'">Historial</button>
+                <button class="btn-link" onclick="window.location.href='inventory.html'"
+                    style="background: linear-gradient(135deg, #667eea, #764ba2);">Inventario</button>
             </div>
         </div>
-
-        <div class="order-preview">
-            <div id="order-preview-content">
-                <table class="order-table" id="order-table">
-                    <tr>
-                        <td style="width: 80px;"></td>
-                        <td style="width: 200px;">No items in order</td>
-                        <td style="width: 80px;"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <div class="btn-container">
-            <button class="btn" style="min-width: 10px;" onclick="submitOrder()">✔️</button>
-        </div>
-
-        <div class="btn-container" id="new-order-container" style="display: none;">
-            <button class="btn" onclick="startNewOrder()">New Order</button>
-        </div>
-
-        <div class="btn-container">
-            <button class="btn" onclick="window.location.href='orders.html'">View Order History</button>
-            <button class="btn" onclick="window.location.href='inventory.html'"
-                style="background: linear-gradient(135deg, #667eea, #764ba2);">📦 Manage Inventory</button>
-        </div>
-
-        <div class="btn-container">
-            <button class="btn" onclick="window.location.href='tienda.html'"
-                style="background: linear-gradient(135deg, #28a745, #20c997);">🏪 Advanced Store</button>
-        </div>
-
-        <div class="ticket" id="ticket" style="display: none;"></div>
     </div>
 
     <script>
@@ -518,7 +554,8 @@
             // Check if this would exceed 6 scoops per cup
             const totalScoopsAfter = currentCup.totalScoops - currentQuantity + newQuantity;
             if (totalScoopsAfter > 6) {
-                alert(`Maximo 6 bolas por vaso. Ahora hay ${currentCup.totalScoops} bolas en el vaso.`);
+                const portion = currentCup.totalScoops === 1 ? 'bola' : 'bolas';
+                alert(`Maximo 6 bolas por vaso. Ahora hay ${currentCup.totalScoops} ${portion} en el vaso.`);
                 return;
             }
 
@@ -547,9 +584,17 @@
 
         // Create new cup
         function createNewCup() {
+            if (Object.keys(currentCup.items).length === 0) {
+                // Current cup is empty, do not create new cup
+                return;
+            }
+
             if (currentCup.totalScoops > 0) {
                 // Save current cup to cups array
                 cups.push({ ...currentCup });
+                currentCupNumber++;
+            } else if (Object.keys(currentCup.items).length === 0) {
+                // If current cup is empty, increment number anyway
                 currentCupNumber++;
             }
 
@@ -561,7 +606,6 @@
                 subtotal: 0
             };
 
-            /* selectedFlavor = null; */ /* Sin esta linea no se desactiva el sabor seleccionado */
             deleteModeCups.clear();
             updateOrderPreview();
             displayFlavors(availableFlavors);
@@ -586,71 +630,84 @@
         // Update order preview with plain text table
         function updateOrderPreview() {
             const orderTable = document.getElementById('order-table');
+            const page = document.querySelector('.page');
+
+            // Store current scroll position and check if we're at bottom
+            const isAtBottom = (page.scrollHeight - page.scrollTop - page.clientHeight) < 5;
+            const scrollPos = page.scrollTop;
 
             // Combine all cups (including current) for preview
             const allCups = [...cups];
-            if (currentCup.totalScoops > 0) {
-                allCups.push({ ...currentCup });
-            }
+            allCups.push({ ...currentCup }); // Always add current cup, even if empty
+
+            let tableHtml = '';
 
             if (allCups.length === 0) {
                 orderTable.innerHTML = `<tr>
-                    <td style="width: 160px;">Vaso vacío</td>
+                    <td style="width: 160px;">vaso vacío</td>
                     <td style="width: 150px;"></td>
                     <td style="width: 150px;"></td>
                 </tr>`;
                 return;
             }
 
-            let tableHtml = '';
-
             allCups.forEach((cup) => {
                 const cupItems = Object.values(cup.items);
-                if (cupItems.length === 0) return;
 
-                // For each cup, create one row for each flavor
+                // Always show the cup number, even if empty
+                tableHtml += `<tr>`;
+                tableHtml += `
+                    <td style="width: 80px;"><b>
+                        <span class="cup-number"
+                            onclick="handleCupClick(this, ${cup.cupNumber})"
+                            data-cup="${cup.cupNumber}">
+                            Vaso ${cup.cupNumber}
+                        </span></b>
+                    </td>`;
+
+                // If cup is empty, show empty message
+                if (cupItems.length === 0) {
+                    tableHtml += `<td style="width: 180px;"><i></i></td>`;
+                    tableHtml += `<td style="width: 80px; text-align: right;"></td>`;
+                    tableHtml += `</tr>`;
+                    tableHtml += `<tr><td colspan="3">&nbsp;</td></tr>`;
+                    return;
+                }
+
+                // If cup has items, show them as before
                 cupItems.forEach((item, itemIndex) => {
-                    const isFirstItemInCup = itemIndex === 0;
-                    tableHtml += `<tr>`;
-
-                    // Modified cup number cell to be interactive
-                    if (isFirstItemInCup) {
-                        tableHtml += `
-                            <td style="width: 80px;">
-                                <span class="cup-number"
-                                    onclick="handleCupClick(this, ${cup.cupNumber})"
-                                    data-cup="${cup.cupNumber}">
-                                    Vaso ${cup.cupNumber}
-                                </span>
-                            </td>`;
-                    } else {
-                        tableHtml += `<td style="width: 80px;"></td>`;
+                    if (itemIndex > 0) {
+                        tableHtml += `<tr><td style="width: 80px;"></td>`;
                     }
-
-                    // Second column: Flavor name and quantity
-                    tableHtml += `<td style="width: 200px;">${item.flavor} (${item.quantity})</td>`;
+                    tableHtml += `<td style="width: 180px;"><b>${item.flavor} (${item.quantity})</b></td>`;
 
                     // Third column: Price for this flavor
                     const flavorTotal = item.price * item.quantity;
-                    tableHtml += `<td style="width: 80px; text-align: right;">$${flavorTotal.toFixed(2)}</td>`;
-
+                    tableHtml += `<td style="width: 80px; text-align: right;"><b>$${flavorTotal.toFixed(2)}</b></td>`;
                     tableHtml += `</tr>`;
                 });
 
-                // Add a cup total row
-                tableHtml += `
-                <tr><td colspan="3">&nbsp;</td></tr>`;
+                tableHtml += `<tr><td colspan="3">&nbsp;</td></tr>`;
             });
 
-            // Add an order total row
+            // Add order total at the bottom
             const orderTotal = allCups.reduce((sum, cup) => sum + cup.subtotal, 0);
             tableHtml += `<tr>
                 <td style="width: 80px;"></td>
-                <td style="width: 200px;"><b>TOTAL</b></td>
+                <td style="width: 180px; text-align: right "><b>TOTAL</b></td>
                 <td style="width: 80px; text-align: right;"><b>$${orderTotal.toFixed(2)}</b></td>
             </tr>`;
 
             orderTable.innerHTML = tableHtml;
+
+            // Restore scroll position
+            if (isAtBottom) {
+                requestAnimationFrame(() => {
+                    page.scrollTop = page.scrollHeight;
+                });
+            } else {
+                page.scrollTop = scrollPos;
+            }
         }
 
         // Submit order with customer name prompt
@@ -669,7 +726,7 @@
             // Prompt for customer name
             const customerName = prompt('Ingrese el nombre del cliente:');
             if (!customerName || customerName.trim() === '') {
-                alert('Customer name is required.');
+                alert('El nombre del cliente es requerido.');
                 return;
             }
 
@@ -681,14 +738,14 @@
             const timestamp = new Date().toLocaleString();
 
             let ticket = `🥤 PUESTO 2 - PEDIDO AVANZADO 🥤
-============================================================
+=========================================
 ${timestamp}
 Cliente: ${customerName}
-============================================================`;
+=========================================`;
 
             allCups.forEach((cup, index) => {
                 ticket += `\n🍨 VASO #${cup.cupNumber} (Total: $${cup.subtotal.toFixed(2)})`;
-                ticket += `\n------------------------------------------------------------`;
+                ticket += `\n-----------------------------------------`;
 
                 Object.values(cup.items).forEach(item => {
                     ticket += `\n${item.flavor} (${item.quantity} scoops) - $${(item.quantity * item.price).toFixed(2)}`;
@@ -699,10 +756,10 @@ Cliente: ${customerName}
                 }
             });
 
-            ticket += `\n============================================================`;
+            ticket += `\n=========================================`;
             ticket += `\nTOTAL GENERAL: $${total.toFixed(2)}`;
             ticket += `\n\n¡Gracias por su pedido!`;
-            ticket += `\n============================================================`;
+            ticket += `\n=========================================`;
 
             ticketContainer.textContent = ticket;
             ticketContainer.style.display = 'block';
@@ -724,9 +781,13 @@ Cliente: ${customerName}
 
                 if (response.ok) {
                     alert('Orden generada correctamente!');
+                    // Hide order preview
+                    document.querySelector('.order-preview').style.display = 'none';
                     // Show the New Order button and hide Submit Order button
                     document.getElementById('new-order-container').style.display = 'block';
-                    document.querySelector('.btn-container').style.display = 'none';
+                    document.getElementById('quantity-controls-container').style.display = 'none';
+                    document.getElementById('flavors-container').style.display = 'none';
+                    /* document.querySelector('.quantity-controls').style.display = 'none'; */
                 } else {
                     alert('Error submitting order. Please try again.');
                 }
@@ -748,13 +809,14 @@ Cliente: ${customerName}
             };
             selectedFlavor = null;
             deleteModeCups.clear();
-
+            document.querySelector('.order-preview').style.display = 'block';
             // Reset display
             updateOrderPreview();
             displayFlavors(availableFlavors);
             document.getElementById('ticket').style.display = 'none';
+            document.getElementById('quantity-controls-container').style.display = 'block';
+            document.getElementById('flavors-container').style.display = 'block';
             document.getElementById('new-order-container').style.display = 'none';
-            document.querySelector('.btn-container').style.display = 'flex';
         }
 
         function handleCupClick(element, cupNumber) {
@@ -792,17 +854,20 @@ Cliente: ${customerName}
 
             // If it's the current cup, reset it
             if (currentCup.cupNumber === cupNumber) {
+                currentCupNumber = cups.length + 1;
                 currentCup = {
                     cupNumber: currentCupNumber,
                     items: {},
                     totalScoops: 0,
                     subtotal: 0
                 };
-            }
-
-            // Update currentCupNumber to reflect the highest cup number
-            if (cups.length > 0) {
-                currentCupNumber = Math.max(...cups.map(cup => cup.cupNumber));
+            } else {
+                // Update currentCupNumber to be one more than the last cup number
+                currentCupNumber = cups.length + 1;
+                // Also update the current cup's number if it's empty
+                if (Object.keys(currentCup.items).length === 0) {
+                    currentCup.cupNumber = currentCupNumber;
+                }
             }
 
             // Clear delete mode
@@ -813,8 +878,6 @@ Cliente: ${customerName}
             updateOrderPreview();
             displayFlavors(availableFlavors);
         }
-
-        // Initialize the page
         loadFlavors();
     </script>
 </body>
