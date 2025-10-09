@@ -39,27 +39,6 @@
             margin-bottom: 5px;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 7.5px;
-            font-size: 2.5em;
-        }
-
-        .flavor-section {
-            margin-bottom: 7.5px;
-        }
-
-        /* .flavor-section h2 {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            color: white;
-            padding: 3.75px;
-            border-radius: 3.75px;
-            text-align: center;
-            font-size: 1.5em;
-            margin-bottom: 5px;
-        } */
-
         .flavors-buttons-container {
             /* min-width: 350px; */
             /*FAQ*/
@@ -154,8 +133,6 @@
             flex-wrap: wrap;
         }
 
-        /* Removed undo button styles */
-
         .quantity-btn {
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
@@ -180,17 +157,11 @@
             cursor: not-allowed;
         }
 
-        .order-preview {
-            background: #f9e4b7;
-            padding: 5px;
-            margin-top: 7.5px;
-            border-radius: 15px;
-            border: 1px solid #ddd;
-            margin-bottom: 8px;
-        }
-
         .order-table {
-            width: 100%;
+            background: #f9e4b7;
+            border-radius: 15px;
+            margin: 7px;
+            width: 350px;
             border-collapse: collapse;
             font-family: monospace;
             font-size: 14px;
@@ -201,21 +172,6 @@
             vertical-align: top;
             border: none;
             text-align: left;
-        }
-
-        .cup-delete-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 2px 6px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .cup-delete-btn:hover {
-            background: #c82333;
         }
 
         .btn-link {
@@ -268,9 +224,12 @@
         .ticket {
             background: #f9e4b7;
             border: 0.5px dashed #ff6b6b;
-            border-radius: 3.75px;
-            padding: 5px;
-            margin-top: 5px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-radius: 15px;
+
+            margin: 7px;
+            width: 350px;
             font-family: monospace;
             white-space: pre-line;
         }
@@ -400,17 +359,15 @@
 
             <div class="ticket" id="ticket" style="display: none;"></div>
 
-            <div class="order-preview">
-                <div id="order-preview-content">
-                    <table class="order-table" id="order-table">
-                        <tr>
-                            <td style="width: 80px;"></td>
-                            <td style="width: 200px;">No items in order</td>
-                            <td style="width: 80px;"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+
+            <table class="order-table" id="order-table">
+                <tr>
+                    <td style="width: 80px;"></td>
+                    <td style="width: 200px;">Sin elementos para sincronizar</td>
+                    <td style="width: 80px;"></td>
+                </tr>
+            </table>
+
 
 
             <div id="flavors-container">
@@ -737,29 +694,20 @@
             const ticketContainer = document.getElementById('ticket');
             const timestamp = new Date().toLocaleString();
 
-            let ticket = `🥤 PUESTO 2 - PEDIDO AVANZADO 🥤
+            let ticket = `🍨 PUESTO 2 - Usuario 🍨
+Cliente: ${customerName} ${timestamp}
 =========================================
-${timestamp}
-Cliente: ${customerName}
-=========================================`;
+Vaso ---------- Bolas ---------- Subtotal`;
 
             allCups.forEach((cup, index) => {
-                ticket += `\n🍨 VASO #${cup.cupNumber} (Total: $${cup.subtotal.toFixed(2)})`;
-                ticket += `\n-----------------------------------------`;
-
                 Object.values(cup.items).forEach(item => {
-                    ticket += `\n${item.flavor} (${item.quantity} scoops) - $${(item.quantity * item.price).toFixed(2)}`;
+                    ticket += `\n${cup.cupNumber} - - - - - ${item.flavor} ${item.quantity} - - - - - - $${(item.quantity * item.price).toFixed(2)}`;
+                    ticket += `\n`;
                 });
-
-                if (Object.keys(cup.items).length === 0) {
-                    ticket += `\nVacío`;
-                }
             });
 
             ticket += `\n=========================================`;
             ticket += `\nTOTAL GENERAL: $${total.toFixed(2)}`;
-            ticket += `\n\n¡Gracias por su pedido!`;
-            ticket += `\n=========================================`;
 
             ticketContainer.textContent = ticket;
             ticketContainer.style.display = 'block';
@@ -782,12 +730,11 @@ Cliente: ${customerName}
                 if (response.ok) {
                     alert('Orden generada correctamente!');
                     // Hide order preview
-                    document.querySelector('.order-preview').style.display = 'none';
+                    document.querySelector('.order-table').style.display = 'none';
                     // Show the New Order button and hide Submit Order button
                     document.getElementById('new-order-container').style.display = 'block';
                     document.getElementById('quantity-controls-container').style.display = 'none';
                     document.getElementById('flavors-container').style.display = 'none';
-                    /* document.querySelector('.quantity-controls').style.display = 'none'; */
                 } else {
                     alert('Error submitting order. Please try again.');
                 }
@@ -809,7 +756,7 @@ Cliente: ${customerName}
             };
             selectedFlavor = null;
             deleteModeCups.clear();
-            document.querySelector('.order-preview').style.display = 'block';
+            document.querySelector('.order-table').style.display = 'block';
             // Reset display
             updateOrderPreview();
             displayFlavors(availableFlavors);
