@@ -647,8 +647,23 @@
                 tableHtml += `<tr><td colspan="3">&nbsp;</td></tr>`;
             });
 
-            // Add order total at the bottom
-            const orderTotal = allCups.reduce((sum, cup) => sum + cup.subtotal, 0);
+            // Add order total at the bottom, applying discount for full cups (6 scoops)
+            const orderTotal = allCups.reduce((sum, cup) => {
+                let cupTotal = cup.subtotal;
+                if (cup.totalScoops === 6) {
+                    const discountMap = {
+                        72: 65,
+                        75: 67,
+                        78: 69,
+                        81: 71,
+                        84: 73,
+                        87: 75,
+                        90: 77
+                    };
+                    cupTotal = discountMap[cupTotal] || cupTotal;
+                }
+                return sum + cupTotal;
+            }, 0);
             tableHtml += `<tr>
                 <td style="width: 80px;"></td>
                 <td style="width: 180px; text-align: right "><b>TOTAL</b></td>
