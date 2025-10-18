@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Inventario - Heladería</title>
+    <title>Inventario</title>
     <style>
         * {
             margin: 0;
@@ -62,7 +62,7 @@
         }
 
         .store-btn {
-            padding: 12px 24px;
+            padding: 3px 10px;
             border: 2px solid #667eea;
             border-radius: 10px;
             font-size: 1em;
@@ -278,6 +278,7 @@
         }
 
         .form-group {
+            flex-direction: row;
             flex: 1;
             min-width: 200px;
         }
@@ -373,25 +374,26 @@
             }
 
             .store-buttons {
-                flex-direction: column;
-                gap: 3.75px;
+                flex-direction: row;
+                gap: 10px;
                 align-items: center;
             }
 
             .store-btn {
                 width: 100%;
-                max-width: 200px;
+                max-width: 150px;
+                max-height: 35px;
             }
 
             .nav-buttons {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 3.75px;
                 align-items: center;
             }
 
             .nav-buttons .btn {
                 width: 100%;
-                max-width: 250px;
+                max-width: 140px;
             }
 
             .table-container {
@@ -426,31 +428,21 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>🍦 Inventario Sabores</h2>
+            <h3>🍦 Inventario 🍦 </h3>
         </div>
 
+        <div class="nav-buttons">
+            <a href="/puesto2.html" class="btn btn-secondary">← Tomar Órden</a>
+            <a href="/all-orders.html" class="btn btn-secondary"> 🧾 Todas →</a>
+        </div>
+        <button class="btn-update" onclick="updateStoreFlavors()" id="update-btn">Actualizar en:</button>
         <div class="store-selector">
-            <h3 style="margin-bottom: 3.75px; color: #2d3436;">Seleccionar Tienda:</h3>
+
             <div class="store-buttons">
-                <button class="store-btn active" onclick="selectStore('index')">🏪 Tienda Principal</button>
-                <button class="store-btn" onclick="selectStore('puesto')">🥤 Puesto</button>
-                <button class="store-btn" onclick="selectStore('puesto2')">🥤 Puesto 2</button>
-                <button class="store-btn" onclick="selectStore('tienda')">🏪 Tienda Avanzada</button>
+                <button class="store-btn" onclick="selectStore('puesto2')">🥤 Imán</button>
+                <button class="store-btn" onclick="selectStore('puesto')">🥤 Tienda 2</button>
             </div>
         </div>
-
-        <div class="nav-buttons">
-            <a href="/" class="btn btn-primary">← Página Principal</a>
-            <a href="/puesto.html" class="btn btn-secondary">Puesto →</a>
-            <a href="/puesto2.html" class="btn btn-secondary">Puesto 2 →</a>
-        </div>
-
-        <div class="nav-buttons">
-            <a href="/tienda.html" class="btn" style="background: linear-gradient(135deg, #28a745, #20c997);">🏪 Tienda
-                Avanzada →</a>
-        </div>
-
-        <div id="error-message" class="error" style="display: none;"></div>
 
         <div class="inventory-table">
             <div class="table-container">
@@ -473,50 +465,25 @@
             </div>
         </div>
 
-        <button class="btn-update" onclick="updateStoreFlavors()" id="update-btn">💾 Actualizar Sabores</button>
-
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-number" id="total-flavors">0</div>
-                <div class="stat-label">Sabores Totales</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="active-flavors">0</div>
-                <div class="stat-label">Sabores Activos</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="avg-price">$0.00</div>
-                <div class="stat-label">Precio Promedio</div>
-            </div>
-        </div>
-
         <div class="add-flavor-section">
-            <h3 style="margin-bottom: 5px; color: #2d3436; text-align: center;">➕ Agregar Nuevo Sabor</h3>
             <form class="add-flavor-form" id="add-flavor-form">
                 <div class="form-group">
-                    <label class="form-label">Nombre del Sabor:</label>
-                    <input type="text" class="form-input" id="new-flavor-name" required
-                        placeholder="Ej: Chocolate Blanco">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Precio por Copa:</label>
+                    <input type="text" class="form-input" id="new-flavor-name" required placeholder="Nuevo sabor">
+
                     <input type="number" class="form-input" id="new-flavor-price" step="0.01" min="0" required
-                        placeholder="0.00">
+                        placeholder="Precio:  11.50">
                 </div>
-                <button type="submit" class="btn-add">Agregar Sabor</button>
+                <button type="submit" class="btn-add">Agregar</button>
             </form>
         </div>
 
-        <div class="nav-buttons" style="border-top: 2px solid #e9ecef;">
-            <a href="/" class="btn btn-primary">← Página Principal</a>
-            <a href="/puesto.html" class="btn btn-secondary">Puesto →</a>
-            <a href="/puesto2.html" class="btn btn-secondary">Puesto 2 →</a>
+        <div class="nav-buttons">
+            <a href="/puesto2.html" class="btn btn-secondary">← Tomar Órden</a>
+            <a href="/all-orders.html" class="btn btn-secondary"> Historial →</a>
         </div>
+        <div id="error-message" class="error" style="display: none;"></div>
 
-        <div class="nav-buttons" style="border-top: 1px solid #e9ecef;">
-            <a href="/tienda.html" class="btn" style="background: linear-gradient(135deg, #28a745, #20c997);">🏪 Tienda
-                Avanzada →</a>
-        </div>
+
     </div>
 
     <script>

@@ -33,6 +33,7 @@
 
         .controls {
             display: flex;
+            flex-direction: row;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 7.5px;
@@ -47,6 +48,7 @@
             padding: 3px 6.25px;
             border-radius: 6.25px;
             font-size: 1.1em;
+            width: 100px;
             cursor: pointer;
             transition: transform 0.3s ease;
             text-decoration: none;
@@ -58,6 +60,8 @@
         }
 
         .summary-stats {
+            display: flex;
+            flex-direction: row;
             background: white;
             border-radius: 3.75px;
             padding: 5px;
@@ -66,6 +70,8 @@
         }
 
         .stats-grid {
+            display: flex;
+            flex-direction: row;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 5px;
@@ -76,11 +82,12 @@
             color: white;
             padding: 5px;
             border-radius: 3.75px;
+            max-width: 100px;
             text-align: center;
         }
 
         .stat-value {
-            font-size: 2em;
+            font-size: 0.9em;
             font-weight: bold;
             margin-bottom: 1.25px;
         }
@@ -172,13 +179,13 @@
 
         @media (max-width: 768px) {
             .controls {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 3.75px;
                 align-items: stretch;
             }
 
             .stats-grid {
-                grid-template-columns: 1fr;
+                grid-template-rows: 1fr;
             }
 
             .orders-table-container {
@@ -198,49 +205,50 @@
 
 <body>
     <div class="container">
-        <h1>📊 All Orders - Simple List</h1>
+        <div class="controls">
+            <h3>📊 Historial 🧾</h3>
+        </div>
 
         <div class="controls">
-            <button class="btn" onclick="loadAllOrders()">Refresh All Orders</button>
-            <button class="btn" onclick="window.location.href='orders.html'">Detailed View</button>
-            <button class="btn" onclick="window.location.href='/'">New Order</button>
+            <button class="btn" onclick="window.location.href='/puesto2.html'">Tomar Órden</button>
+            <button class="btn" onclick="window.location.href='/inventory.html'">Inventario</button>
         </div>
 
-        <div class="summary-stats">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="total-orders">0</div>
-                    <div class="stat-label">Total Orders</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="total-revenue">$0.00</div>
-                    <div class="stat-label">Total Revenue</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="avg-order">$0.00</div>
-                    <div class="stat-label">Average Order</div>
-                </div>
+        <div class="controls">
+            <div class="stat-card">
+                <div class="stat-value" id="total-orders">0</div>
+                <div class="stat-label">Conteo</div>
             </div>
-        </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-revenue">$0.00</div>
+                <div class="stat-label">Ingreso total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-order">$0.00</div>
+                <div class="stat-label">Orden promedio</div>
+            </div>
 
-        <div class="orders-table-container">
-            <div class="table-header">All Orders Summary</div>
-            <table class="orders-table" id="orders-table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Date & Time</th>
-                        <th>Items</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody id="orders-table-body">
-                    <tr>
-                        <td colspan="4" class="loading">Loading orders...</td>
-                    </tr>
-                </tbody>
-            </table>
+
         </div>
+    </div>
+
+    <div class="orders-table-container">
+        <table class="orders-table" id="orders-table">
+            <thead>
+                <tr>
+                    <th> # id</th>
+                    <th>Fecha-Hora</th>
+                    <th>Contenido</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="orders-table-body">
+                <tr>
+                    <td colspan="4" class="loading">Loading orders...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     </div>
 
     <script>
@@ -253,7 +261,7 @@
                 const orders = await response.json();
 
                 if (orders.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="4" class="no-orders">No orders found.</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="4" class="no-orders">Aun no hay órdenes.</td></tr>';
                     document.getElementById('total-orders').textContent = '0';
                     document.getElementById('total-revenue').textContent = '$0.00';
                     document.getElementById('avg-order').textContent = '$0.00';
@@ -269,7 +277,7 @@
 
                 // Populate table
                 tableBody.innerHTML = '';
-                orders.forEach(order => {
+                orders.reverse().forEach(order => {
                     const row = document.createElement('tr');
 
                     const itemsText = order.items.map(item => `${item.flavor}(${item.quantity})`).join(', ');

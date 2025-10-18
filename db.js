@@ -62,7 +62,7 @@ db.serialize(() => {
   defaultFlavors.forEach(flavor => {
     db.run(`
         INSERT OR IGNORE INTO flavors (name, price)
-        VALUES (?, 3.00)
+        VALUES (?, 12.00)
       `, [flavor]);
   });
 });

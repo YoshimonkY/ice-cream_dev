@@ -353,7 +353,7 @@
 
         <div class="container">
             <div class="header-container">
-                <h3>Puesto 2</h3>
+                <h3>Tienda Imán</h3>
                 <h3>Usuario</h3>
             </div>
 
@@ -388,7 +388,7 @@
 
             <div class="btn-container">
                 <button class="btn-link" style="margin-right: 85px;"
-                    onclick="window.location.href='orders.html'">Historial</button>
+                    onclick="window.location.href='ticket-wall.html'">Recientes</button>
                 <button class="btn-link" onclick="window.location.href='inventory.html'"
                     style="background: linear-gradient(135deg, #667eea, #764ba2);">Inventario</button>
             </div>
@@ -695,18 +695,24 @@
             const timestamp = new Date().toLocaleString();
 
             let ticket = `🍨 PUESTO 2 - Usuario 🍨
-Cliente: ${customerName} ${timestamp}
-=========================================
-Vaso ---------- Bolas ---------- Subtotal`;
+${timestamp}
+-----------------------------------
+Cliente: ${customerName} 
+-----------------------------------`;
 
             allCups.forEach((cup, index) => {
+                ticket += `\n🥤 VASO ${cup.cupNumber} 🥤`;
                 Object.values(cup.items).forEach(item => {
-                    ticket += `\n${cup.cupNumber} - - - - - ${item.flavor} ${item.quantity} - - - - - - $${(item.quantity * item.price).toFixed(2)}`;
+                    ticket += `\n${item.flavor} ${item.quantity} - - - $${(item.quantity * item.price).toFixed(2)}`;
                     ticket += `\n`;
                 });
+
+                if (Object.keys(cup.items).length === 0) {
+                    ticket += `\nVacío`;
+                }
             });
 
-            ticket += `\n=========================================`;
+            ticket += `\n====================================`;
             ticket += `\nTOTAL GENERAL: $${total.toFixed(2)}`;
 
             ticketContainer.textContent = ticket;
@@ -726,6 +732,10 @@ Vaso ---------- Bolas ---------- Subtotal`;
                         storeId: 'puesto2'
                     }),
                 });
+                console.log("Response status:", response.status);
+                console.log("Response:", response);
+                const responseBody = await response.json();
+                console.log("responseBody:", responseBody);
 
                 if (response.ok) {
                     alert('Orden generada correctamente!');
